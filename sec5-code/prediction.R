@@ -301,6 +301,10 @@ data.new.pre.adj <- lapply(data.new.pre, FUN = function(x){
     #break
   }
   
+  x <- x %>% filter(!(center %in% center.list1 & screen.time >= finish.time1)) 
+  x <- x %>% filter(!(center %in% center.list2 & screen.time >= finish.time2)) 
+  x <- x %>% filter(!(center %in% center.list3 & screen.time >= finish.time3)) 
+  
   # region 1
   n1.1 <- nrow(x %>% filter(center %in% center.list1 & status == 1))
   if(n1.1 > target1.1.max){
