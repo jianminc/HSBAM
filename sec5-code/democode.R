@@ -1,9 +1,9 @@
 rm(list = setdiff(ls(), c()))
-source('preamble.R')
+source('../sec4-code/preamble.R')
 ## =============================================================================
 ## Step 1: generate simulated data
-set.seed(5)
 # Set a cutoff time: source the whole script when using a new cutoff value
+# use different cutoff data to do dynamic prediction
 cutoff <- 300
 # Set the maximum time
 max.time <- 365 * 3
@@ -44,14 +44,10 @@ grid.arrange(p.enroll.all.st1, p.enroll.all.st2, nrow = 2)
 
 ## =====================================================================
 ## Step 2: source MCMC functions
-source('Gibbs.R')
-source('AM.R')
-source('label_update.R')
-
-source('Gibbs.R')
-source('MH5.R')
-source('label_update.R')
-source('dynamic_fit_joint.R')
+source('../sec4-code/Gibbs.R')
+source('../sec4-code/MH5.R')
+source('../sec4-code/label_update.R')
+source('../sec4-code/dynamic_fit_joint.R')
 
 ## =====================================================================
 ## Step 3: fit model
@@ -59,7 +55,7 @@ source('dynamic_fit_joint.R')
 niter <- 5000
 n.burnin <- 2001
 set.seed(1)
-source('dynamic_fit_joint.R')
+source('../sec4-code/dynamic_fit_joint.R')
 iter.data <- jointfit(data1.final, niter = niter)
 
 ## =====================================================================
@@ -89,20 +85,12 @@ center.include <- intersect(rule.1, rule.2)
 J.pre <- length(center.include)
 # sample h new IAT from each center
 h <- round(target.screen.remain/J.pre * 10)
-set.seed(1)
-#source('dynamic_predict_new.R')
-source('dynamic_predict_close.R')
-
+suppressMessages(suppressWarnings(source('prediction.R')))
 ## =====================================================================
 ## Step 6: result visualization
 end.time <- 900
 source('result.R')
-pre.screen
-prob.screen
-pre.enroll
-prob.enroll
 pre.enroll.st1
-prob.enroll.st1
 pre.enroll.st2
-prob.enroll.st2
+
 
